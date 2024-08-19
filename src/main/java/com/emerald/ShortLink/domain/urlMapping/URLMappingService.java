@@ -26,7 +26,7 @@ public class URLMappingService {
         try {
             return URLMappingRepository.findByShortURL(shortURL);
         } catch (Exception error) {
-            throw new RuntimeException("URL não existe em nosso registro", error);
+            throw new RuntimeException("Essa URL não existe em nosso registro", error);
         }
     }
 }
