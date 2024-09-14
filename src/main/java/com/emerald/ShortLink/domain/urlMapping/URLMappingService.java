@@ -7,6 +7,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -17,15 +18,21 @@ public class URLMappingService {
 
     @Autowired
     private URLMappingRepository URLMappingRepository;
+    @Value("${project.url}")
+    private String projectURL;
 
     public String generateURL() {
         return RandomStringUtils.randomAlphanumeric(5, 10);
     }
 
-    public URLMapping createURLMapping(PostRequestURLMapping data) {
+    public URLMapping createURLMapping(PostRequestURLMapping data) throws WriterException, IOException {
+        String newShortURL = generateURL();
+        byte[] newQRCode = generateQRCode(projectURL + newShortURL, 200, 200);
+
         var newURLMapping = new URLMapping.URLMappingBuilder()
                 .originalURL(data.original_url())
-                .shortURL(generateURL())
+                .shortURL(newShortURL)
+                .qrcode(newQRCode)
                 .build();
         return URLMappingRepository.save(newURLMapping);
     }

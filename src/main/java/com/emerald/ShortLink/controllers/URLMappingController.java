@@ -5,6 +5,7 @@ import com.google.zxing.WriterException;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class URLMappingController {
     }
 
     @PostMapping
-    public ResponseEntity<URLMappingResponse> createURLMapping(@RequestBody @Validated PostRequestURLMapping data) {
+    public ResponseEntity<URLMappingResponse> createURLMapping(@RequestBody @Validated PostRequestURLMapping data) throws WriterException, IOException {
         // Cria um novo URL mapping
         var newURLMapping = URLMappingService.createURLMapping(data);
 
@@ -46,5 +47,20 @@ public class URLMappingController {
         );
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/qrcode/{shortURL}")
+    public ResponseEntity<byte[]> getQRCode(@PathVariable String shortURL) {
+        URLMapping URLMapping = URLMappingService.getOriginalURL(shortURL);
+
+        if (URLMapping != null) {
+            // Headers para o tipo de mídia
+            HttpHeaders imageHeaders = new HttpHeaders();
+            imageHeaders.setContentType(MediaType.IMAGE_PNG);
+
+            return new ResponseEntity<>(URLMapping.getQrcode(), imageHeaders, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 }
