@@ -25,6 +25,8 @@ public class URLMapping {
     private String shortURL;
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+    @Column(name = "qrcode")
+    private byte[] qrcode;
 
     @PrePersist
     protected void onCreate() {
