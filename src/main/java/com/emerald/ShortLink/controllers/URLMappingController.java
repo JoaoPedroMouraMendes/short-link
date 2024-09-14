@@ -1,10 +1,12 @@
 package com.emerald.ShortLink.controllers;
 
 import com.emerald.ShortLink.domain.urlMapping.*;
+import com.google.zxing.WriterException;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
