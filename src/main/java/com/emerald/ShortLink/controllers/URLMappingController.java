@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Base64;
 
 @RestController
 @RequestMapping
@@ -50,17 +51,16 @@ public class URLMappingController {
     }
 
     @GetMapping("/qrcode/{shortURL}")
-    public ResponseEntity<byte[]> getQRCode(@PathVariable String shortURL) {
+    public ResponseEntity<QRCodeResponse> getQRCode(@PathVariable String shortURL) {
         URLMapping URLMapping = URLMappingService.getOriginalURL(shortURL);
 
         if (URLMapping != null) {
-            // Headers para o tipo de mídia
-            HttpHeaders imageHeaders = new HttpHeaders();
-            imageHeaders.setContentType(MediaType.IMAGE_PNG);
+            String base64Image = Base64.getEncoder().encodeToString(URLMapping.getQrcode());
 
-            return new ResponseEntity<>(URLMapping.getQrcode(), imageHeaders, HttpStatus.OK);
+            QRCodeResponse response = new QRCodeResponse(base64Image);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         }
 
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }
