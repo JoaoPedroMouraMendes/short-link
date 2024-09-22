@@ -26,7 +26,7 @@ public class URLMapping {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
     @Column(name = "qrcode")
-    private byte[] qrcode;
+    private String qrcode;
 
     @PrePersist
     protected void onCreate() {

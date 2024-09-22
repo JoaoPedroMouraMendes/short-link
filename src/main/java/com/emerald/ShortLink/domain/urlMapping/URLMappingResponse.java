@@ -18,4 +18,13 @@ public class URLMappingResponse {
     private String originalURL;
     private String shortURL;
     private LocalDateTime createdAt;
+    private String qrcode;
+
+    public URLMappingResponse(URLMapping URLMapping) {
+        this.id = URLMapping.getId();
+        this.originalURL = URLMapping.getOriginalURL();
+        this.shortURL = URLMapping.getShortURL();
+        this.createdAt = URLMapping.getCreatedAt();
+        this.qrcode = URLMapping.getQrcode();
+    }
 }

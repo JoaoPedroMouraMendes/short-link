@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Base64;
 
 @Service
 public class URLMappingService {
@@ -27,12 +28,13 @@ public class URLMappingService {
 
     public URLMapping createURLMapping(PostRequestURLMapping data) throws WriterException, IOException {
         String newShortURL = generateURL();
-        byte[] newQRCode = generateQRCode(projectURL + newShortURL, 200, 200);
+        byte[] QRCodeInByte = generateQRCode(projectURL + newShortURL, 200, 200);
+        String QRCodeBase64 = Base64.getEncoder().encodeToString(QRCodeInByte);
 
         var newURLMapping = new URLMapping.URLMappingBuilder()
                 .originalURL(data.original_url())
                 .shortURL(newShortURL)
-                .qrcode(newQRCode)
+                .qrcode(QRCodeBase64)
                 .build();
         return URLMappingRepository.save(newURLMapping);
     }

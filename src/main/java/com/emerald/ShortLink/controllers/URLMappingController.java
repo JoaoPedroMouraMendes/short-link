@@ -40,27 +40,8 @@ public class URLMappingController {
         // Cria um novo URL mapping
         var newURLMapping = URLMappingService.createURLMapping(data);
 
-        var response = new URLMappingResponse(
-          newURLMapping.getId(),
-          newURLMapping.getOriginalURL(),
-                projectURL + newURLMapping.getShortURL(),
-          newURLMapping.getCreatedAt()
-        );
+        var response = new URLMappingResponse(newURLMapping);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-
-    @GetMapping("/qrcode/{shortURL}")
-    public ResponseEntity<QRCodeResponse> getQRCode(@PathVariable String shortURL) {
-        URLMapping URLMapping = URLMappingService.getOriginalURL(shortURL);
-
-        if (URLMapping != null) {
-            String base64Image = Base64.getEncoder().encodeToString(URLMapping.getQrcode());
-
-            QRCodeResponse response = new QRCodeResponse(base64Image);
-            return ResponseEntity.status(HttpStatus.OK).body(response);
-        }
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }
