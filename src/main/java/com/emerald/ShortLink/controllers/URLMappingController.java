@@ -40,7 +40,7 @@ public class URLMappingController {
         // Cria um novo URL mapping
         var newURLMapping = URLMappingService.createURLMapping(data);
 
-        var response = new URLMappingResponse(newURLMapping);
+        var response = new URLMappingResponse(newURLMapping, projectURL);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

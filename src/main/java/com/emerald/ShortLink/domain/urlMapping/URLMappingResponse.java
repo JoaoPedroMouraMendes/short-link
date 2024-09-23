@@ -20,10 +20,10 @@ public class URLMappingResponse {
     private LocalDateTime createdAt;
     private String qrcode;
 
-    public URLMappingResponse(URLMapping URLMapping) {
+    public URLMappingResponse(URLMapping URLMapping, String projectURL) {
         this.id = URLMapping.getId();
         this.originalURL = URLMapping.getOriginalURL();
-        this.shortURL = URLMapping.getShortURL();
+        this.shortURL = projectURL + URLMapping.getShortURL();
         this.createdAt = URLMapping.getCreatedAt();
         this.qrcode = URLMapping.getQrcode();
     }
