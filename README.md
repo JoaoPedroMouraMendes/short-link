@@ -11,3 +11,4 @@ As tecnologias usadas nesse projeto são:
 -  Flyway (para controle de versão dos scripts SQL) 🛤️
 -  JPA (ORM) 🔄
 -  PostgreSQL 🗃️
+-  ZXing (para criação de qr codes)️️ 🏷️
