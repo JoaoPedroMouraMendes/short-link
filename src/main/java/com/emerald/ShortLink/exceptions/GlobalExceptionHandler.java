@@ -9,15 +9,14 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler {
 
     // Trata JSON malformado ou não legível, incluindo corpo ausente
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected ResponseEntity<ErrorResponse> handleHttpMessageNotReadable(NoHandlerFoundException ex) {
+    public ResponseEntity<ErrorResponse> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
         var error = new ErrorResponse(HttpStatus.BAD_REQUEST ,"O corpo da requisição está ausente ou malformado. Por favor, verifique e tente novamente.");
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
