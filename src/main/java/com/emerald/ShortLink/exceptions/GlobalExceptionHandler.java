@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
     // Trata JSON malformado ou não legível, incluindo corpo ausente
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorResponse> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
+    private ResponseEntity<ErrorResponse> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
         var error = new ErrorResponse(HttpStatus.BAD_REQUEST ,"O corpo da requisição está ausente ou malformado. Por favor, verifique e tente novamente.");
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
     // Captura quando não passa o valor esperado na URL
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<ErrorResponse> handleNoHandlerFoundException(NoHandlerFoundException ex) {
+    private ResponseEntity<ErrorResponse> handleNoHandlerFoundException(NoHandlerFoundException ex) {
         var error = new ErrorResponse(HttpStatus.NOT_FOUND, "A URL que você está tentando acessar não existe ou está incorreta.");
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
     // Requisições não suportadas
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-    public ResponseEntity<ErrorResponse> handleMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
+    private ResponseEntity<ErrorResponse> handleMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
         var error = new ErrorResponse(HttpStatus.METHOD_NOT_ALLOWED, "O método HTTP utilizado não é suportado para esta rota. Esqueceu de implementar alguma variável na URL?");
         return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
     }
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
     // Falta de variáveis no body
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    private ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
 
         var error = new ErrorResponse(HttpStatus.BAD_REQUEST, "Estrutura do body da requisição inválida.");
 
@@ -59,7 +59,7 @@ public class GlobalExceptionHandler {
     // Tratar outras exceções
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
+    private ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
         // Log da exceção para o desenvolvedor
         ex.printStackTrace();
 
