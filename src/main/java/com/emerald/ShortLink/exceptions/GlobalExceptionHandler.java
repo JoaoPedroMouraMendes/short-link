@@ -13,6 +13,14 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    // Link Curto não encontrado
+    @ExceptionHandler(ShortLinkNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    private ResponseEntity<ErrorResponse> shortLinkNotFound(ShortLinkNotFoundException ex) {
+        var error = new ErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
     // Trata JSON malformado ou não legível, incluindo corpo ausente
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

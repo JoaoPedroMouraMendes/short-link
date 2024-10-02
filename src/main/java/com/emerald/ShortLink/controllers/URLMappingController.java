@@ -29,10 +29,7 @@ public class URLMappingController {
         // Obtem a URL original usanda o URL curta
         var URLMapping = URLMappingService.getOriginalURL(shortURL);
         // Redireciona para a URL original
-        if (URLMapping != null)
-            response.sendRedirect(URLMapping.getOriginalURL());
-        else
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        response.sendRedirect(URLMapping.getOriginalURL());
     }
 
     @PostMapping

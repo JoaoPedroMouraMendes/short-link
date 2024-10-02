@@ -1,6 +1,7 @@
 package com.emerald.ShortLink.domain.urlMapping;
 
 import com.emerald.ShortLink.domain.QRCode.QRCodeService;
+import com.emerald.ShortLink.exceptions.ShortLinkNotFoundException;
 import com.google.zxing.WriterException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +39,9 @@ public class URLMappingService {
     }
 
     public URLMapping getOriginalURL(String shortURL) {
-        try {
-            return URLMappingRepository.findByShortURL(shortURL);
-        } catch (Exception error) {
-            throw new RuntimeException("Essa URL não existe em nosso registro", error);
-        }
+        var URLMapping = URLMappingRepository.findByShortURL(shortURL);
+        if (URLMapping == null)
+            throw new ShortLinkNotFoundException();
+        return URLMapping;
     }
 }
